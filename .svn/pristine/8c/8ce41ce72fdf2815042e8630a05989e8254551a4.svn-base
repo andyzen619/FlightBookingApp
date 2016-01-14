@@ -1,0 +1,149 @@
+package users;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * 
+ * @author Raphael Alviz, Zain Amir, Ian Ferguson, Andy Liang, Johnathan Tsoi
+ */
+public class Client extends User {
+  
+  private String lastName;
+  private String firstName;
+  private String email;
+  private String address;
+  private String creditCardNumber;
+  private String expiryDate;
+	
+  /**
+   * Creates a Client user with the given information.
+   * @param username The username of the Client used to login
+   * @param password The password of the Client used to login
+   * @param lastName The last name of the Client
+   * @param firstName The first name of the Client
+   * @param email The email of the Client
+   * @param address The address of the Client
+   * @param creditCardNumber The credit card number of the Client
+   * @param expiryDate The expiry date of the Client's credit card
+   */
+  public Client(String lastName, String firstName, String email, String address, String creditCardNumber, String expiryDate) {
+    this.lastName = lastName;
+    this.firstName = firstName;
+    this.email = email;
+    this.address = address;
+    this.creditCardNumber = creditCardNumber;
+    this.expiryDate = expiryDate; // Should this be stored differently?
+    
+  }
+
+  /**
+   * @return the lastName
+   */
+  public String getLastName() {
+	  return lastName;
+  }
+
+  /**
+   * @param lastName the lastName to set
+   */
+  public void setLastName(String lastName) {
+	  this.lastName = lastName;
+  }
+
+  /**
+   * @return the firstName
+   */
+  public String getFirstName() {
+	  return firstName;
+  }
+
+  /**
+   * @param firstName the firstName to set
+   */
+  public void setFirstName(String firstName) {
+	  this.firstName = firstName;
+  }
+
+  /**
+   * @return the email
+   */
+  public String getEmail() {
+	  return email;
+  }
+
+  /**
+   * @param email the email to set
+   */
+  public void setEmail(String email) {
+	  this.email = email;
+  }
+  
+  /**
+   * @return the address
+   */
+  public String getAddress() {
+	  return address;
+  }
+  
+  /**
+   * @param address the address to set
+   */
+  public void setAddress(String address) {
+	  this.address = address;
+  }
+
+  /**
+   * @return the creditCardNumber
+   */
+  public String getCreditCardNumber() {
+	  return creditCardNumber;
+  }
+
+  /**
+   * @param creditCardNumber the creditCardNumber to set
+   */
+  public void setCreditCardNumber(String creditCardNumber) {
+	  this.creditCardNumber = creditCardNumber;
+  }
+
+  /**
+   * @return the expiryDate
+   */
+  public String getExpiryDate() {
+	  return expiryDate;
+  }
+
+  /**
+   * @param expiryDate the expiryDate to set
+   */
+  public void setExpiryDate(String expiryDate) {
+	  this.expiryDate = expiryDate;
+  }
+  
+  public Map<String, Client> uploadUserInfo(String fileName) throws FileNotFoundException, IOException {
+	Map<String, Client> clients = new HashMap<String, Client>();
+    BufferedReader br = new BufferedReader(new FileReader(fileName));
+    
+    String line = br.readLine();
+    
+    while ((line = br.readLine()) != null && !line.isEmpty()) {
+      String[] fields = line.split(",");
+      String lastName = fields[0];
+      String firstName = fields[1];
+      String email = fields[2];
+      String address = fields[3];
+      String creditCardNumber = fields[4];
+      String expiryDate = fields[5];
+      Client newClient = new Client(lastName, firstName, email, address, creditCardNumber, expiryDate);
+      clients.put(email, newClient);
+    }
+    br.close();
+    return clients;
+  }
+
+}

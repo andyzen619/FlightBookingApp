@@ -1,0 +1,104 @@
+package cs.b07.cscb07project.activities;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.RadioButton;
+
+import java.util.ArrayList;
+
+import cs.b07.cscb07project.R;
+import cs.b07.cscb07project.backEnd.application.Constants;
+import cs.b07.cscb07project.backEnd.application.ItinerarySort;
+import cs.b07.cscb07project.backEnd.driver.FlightBookingApplication;
+import cs.b07.cscb07project.backEnd.transportation.Flight;
+import cs.b07.cscb07project.backEnd.users.User;
+
+public class ViewFlightsActivity extends AppCompatActivity implements OnItemClickListener {
+
+    private User user;
+    private ArrayList<Flight> flights;
+    private ListView flightListView;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_view_flights);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Intent intent = getIntent();
+        user = (User) intent.getSerializableExtra("user");
+        String departureDate = (String) intent.getSerializableExtra("departureDate");
+        String origin = (String) intent.getSerializableExtra("origin");
+        String destination = (String) intent.getSerializableExtra("destination");
+
+        flights = FlightBookingApplication.getFlights(departureDate, origin, destination);
+        ArrayList<String> flightsText = getFlightText(flights);
+
+        flightListView = (ListView) findViewById(R.id.flight_list_view);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                R.layout.activity_listview, flightsText);
+        flightListView.setAdapter(adapter);
+        flightListView.setOnItemClickListener(this);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
+        Flight flight = flights.get(position);
+        //TODO: Add booking activity to go to.
+        Intent intent = new Intent(this, AdminActivity.class);
+        intent.putExtra("user", user);
+        intent.putExtra("flight", flight);
+        startActivity(intent);
+    }
+
+    public void onRadioButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.sort_time:
+                if (checked) {
+                    flights = ItinerarySort.sortFlightTravelTime(flights);
+                    ArrayList<String> flightsText = getFlightText(flights);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                            R.layout.activity_listview, flightsText);
+                    flightListView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                }
+                break;
+            case R.id.sort_cost:
+                if (checked) {
+                    flights = ItinerarySort.sortFlightCost(flights);
+                    ArrayList<String> flightsText = getFlightText(flights);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                            R.layout.activity_listview, flightsText);
+                    flightListView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                }
+                break;
+        }
+    }
+
+    private ArrayList<String> getFlightText(ArrayList<Flight> flights) {
+        ArrayList<String> flightsText = new ArrayList<String>();
+        for (Flight flight : flights) {
+            String flightText = String.format(Constants.FLIGHT_LISTVIEW_ROW, flight.getAirline(),
+                    flight.getFlightNumber(), flight.getOrigin(), flight.getDepartureTimeString(),
+                    flight.getDestination(), flight.getArrivalTimeString(), flight.getNumSeatsForSale(),
+                    flight.getCostString());
+            flightsText.add(flightText);
+        }
+        return flightsText;
+    }
+
+}

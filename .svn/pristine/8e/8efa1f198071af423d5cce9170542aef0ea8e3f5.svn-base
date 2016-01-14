@@ -1,0 +1,53 @@
+package cs.b07.cscb07project.activities;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.TextView;
+
+import cs.b07.cscb07project.R;
+import cs.b07.cscb07project.backEnd.Managers.ClientManager;
+import cs.b07.cscb07project.backEnd.driver.FlightBookingApplication;
+
+public class UploadClientActivity extends AppCompatActivity {
+
+    private ClientManager clientManager;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_upload_client);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+        // get the Intent that launched me
+        Intent intent = getIntent();
+        // get the manager that was put into the Intent with key Flight_Key
+        clientManager = (ClientManager)intent.getSerializableExtra(MainActivity.CLIENT_KEY);
+
+       /* String content = FlightBookingApplication.getUserDatabase().toString();
+        TextView view = (TextView) findViewById(R.id.display_users);
+        view.setText(content);*/
+    }
+
+    public void SaveToFile(View view) {
+        // Save the information to the file
+        clientManager.saveToFile();
+
+        // TODO:FIND A WAY TO GO BACK!!!!!!!!!!!!!!!!!!!!
+    }
+
+}

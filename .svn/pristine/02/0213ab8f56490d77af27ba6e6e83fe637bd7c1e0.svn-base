@@ -1,0 +1,104 @@
+package application;
+
+import java.text.ParseException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import transportation.Flight;
+import users.*;
+
+/**
+ * A database containing Client objects. Allows adding and removing of Client objects and
+ * as well as retrieval of specific Client information by email.
+ * @author Raphael Alviz, Zain Amir, Ian Ferguson, Andy Liang, Johnathan Tsoi
+ */
+public class ClientDatabase {
+	// Hashmap mapping client emails to client for quick access and storage of client
+	// information.
+	private HashMap<String, Client> clientDatabase;
+	
+	/**
+	 * Creates a new empty ClientDatabase.
+	 */
+	public ClientDatabase() {
+		clientDatabase = new HashMap<String, Client>();
+	}
+	
+	/**
+	 * Storing clients to the ClientDatabase with the given
+	 * client email since it is the only unique set of information.
+	 * @param client The Client to be added to the ClientDatabase.
+	 */
+	public void addClient(Client client) {
+		if (!clientDatabase.containsKey(client.getEmail())) {
+			// Adds the client to the clientdatabase with the email as the key
+			clientDatabase.put(client.getEmail(), client);
+		}
+	}
+	  /**
+	   * (Overloading)
+	   * If a client is not already created, it is created in here with the corresponding
+	   * parameters below.
+	   * If the client is already in the database, it will be ignored.
+	   * @param departureTime The departure time of the Flight to be created.
+	   * @param arrivalTime The arrival time of the Flight to be created.
+	   * @param origin The name of the city from which the Flight originates.
+	   * @param destination The name of the destination city of the Flight.
+	   * @param cost The cost of the Flight.
+	   * @param flightNumber The unique flight number associated with the Flight
+	   * @param airline The name of the airline of the Flight to be created.
+	   * @throws ParseException Throws ParseException if flight data is not in correct format.
+	   */
+	  public void addClient(String lastName, String firstName, String email, 
+			  String address, String creditCardNumber, String expiryDate){
+	    Client newClient = new Client(lastName, firstName, email, address,  
+	    		creditCardNumber, expiryDate);
+	    this.addClient(newClient);
+	  }
+	  
+	  /**
+	   * (Overloading)
+	   * Adds an array of clients, if clients are already within the database, it will not be added.
+	   * @param clients An array of clients that will be added to the cilentDatabase.
+	   */
+	  public void addClients(Client[] clients) {
+	    for (Client client: clients) {
+	      this.addClient(client);
+	    }
+	  }
+	  
+	  /**
+	   * Removes the client from the clientDatabase.
+	   * If the clients does not exist then nothing will be done
+	   * @param client Client that will be removed in the clientDatabse.
+	   */
+	  public void removeClient(Client client) {
+	    if (clientDatabase.containsKey(client.getEmail())) {
+	      clientDatabase.remove(client.getEmail());
+	    }
+	  }
+	  
+	  /**
+	   * Removes the given client from the clientDatabase
+	   * If the client doesn't exist, it does nothing.
+	   * @param clientEmail The email, which is the key for the clientDatabase will
+	   * remove the corresponding client object.
+	   */
+	  public void removeClient(String clientEmail) {
+	    if (clientDatabase.containsKey(clientEmail)) {
+	      Client client = clientDatabase.remove(clientEmail);
+	    }
+	  }
+	  
+	  /**
+	   * Takes in the client's email, the key for clientDatabase and will
+	   * return the client object for the corresponding email.
+	   * @param clientEmail The clientEmail for the corresponding Client to be returned.
+	   * @return The Client object with the given client e-mail. Null if
+	   * the client does not exist in the clientDatabase.
+	   */
+	  public Client getClient(String clientEmail) {
+	    return clientDatabase.get(clientEmail);
+	  }
+
+}

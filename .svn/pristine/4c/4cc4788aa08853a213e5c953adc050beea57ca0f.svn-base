@@ -1,0 +1,87 @@
+package cs.b07.cscb07project.activities;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.EditText;
+
+import java.io.File;
+import java.io.IOException;
+
+import cs.b07.cscb07project.R;
+import cs.b07.cscb07project.backEnd.Managers.ClientManager;
+import cs.b07.cscb07project.backEnd.Managers.PasswordManager;
+import cs.b07.cscb07project.backEnd.application.Constants;
+import cs.b07.cscb07project.backEnd.driver.FlightBookingApplication;
+import cs.b07.cscb07project.backEnd.users.User;
+
+public class MainActivity extends AppCompatActivity {
+
+    //TODO: HAVE TO CHANGE THIS ACCORDING TO OUR EMULATOR FOR NOW!!!!!!!!!!!!!!!!!!!!!!!!!
+    public static final String FILE_PASS = "passwords.txt";
+    public static final String FILE_CLIENT = "clients.txt";
+    public static final String USER_DATA_DIR = "records_data";
+    public static final String PASS_KEY = "PasswordKey";
+    public static final String CLIENT_KEY = "ClientKey";
+
+    public static PasswordManager passManager;
+    public static ClientManager clientManager;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        File userdata = this.getApplicationContext().getDir(USER_DATA_DIR, MODE_PRIVATE);
+        File passwordsFile = new File(userdata, FILE_PASS);
+        File clientsFile = new File(userdata, FILE_CLIENT);
+
+        try {
+            passManager = new PasswordManager(passwordsFile);
+            clientManager = new ClientManager(clientsFile);
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public void logIn(View view) {
+        boolean loginSuccessful = false;
+
+        // Gets the username and password from the EditText fields.
+        EditText usernameText = (EditText) findViewById(R.id.username_field);
+        EditText passwordText = (EditText) findViewById(R.id.password_field);
+        String username = usernameText.getText().toString();
+        String password = passwordText.getText().toString();
+
+        Intent intent = new Intent(this, MainActivity.class);
+        if (passManager.verifyPassword(username, password)) {
+            User user = FlightBookingApplication.getUser(username);
+            if (user.isAdmin()) {
+                intent = new Intent(this, AdminActivity.class);
+                intent.putExtra(Constants.USERNAME, username);
+                /*intent.putExtra(PASS_KEY,passManager);
+                intent.putExtra(CLIENT_KEY, clientManager);*/
+                startActivity(intent);
+            } else {
+                intent = new Intent(this, ClientActivity.class);
+                intent.putExtra(Constants.USERNAME, username);
+                startActivity(intent);
+            }
+        }
+        startActivity(intent);
+    }
+
+    public void register(View view) {
+        Intent intent = new Intent(this, RegisterActivity.class);
+        /*intent.putExtra(PASS_KEY,passManager);
+        intent.putExtra(CLIENT_KEY, clientManager);*/
+        startActivity(intent);
+    }
+
+}

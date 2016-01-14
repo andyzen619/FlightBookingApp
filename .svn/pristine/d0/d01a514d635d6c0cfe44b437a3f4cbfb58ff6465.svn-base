@@ -1,0 +1,140 @@
+package application;
+
+import itinerary.FlightItinerary;
+
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * An ItinerarySort class to sort all of the FlightItinerary objects using cost
+ * and traveltime.
+ * 
+ * @author Zain Amir, Raphael Alviz, Ian Ferguson, Andy Liang, Johnathan Tsoi
+ */
+public class ItinerarySort {
+
+  // private instances
+  private List<FlightItinerary> itineraries;
+
+  public ItinerarySort() {
+    // TODO Auto-generated constructor stub
+    this.itineraries = new ArrayList<>();
+  }
+
+  /**
+   * Returns a list of flightItineraries sorted by cost of each Itinerary.
+   * @param allItineraries
+   *          the list to sort by cost
+   * @return the sorted list.
+   */
+  public List<FlightItinerary> sortCost(List<FlightItinerary> allItineraries) {
+    itineraries = allItineraries;
+    if (itineraries.size() < 2) {
+      return itineraries;
+    } else {
+      // separate the list in the middle
+      int midpoint = (int) Math.floor(itineraries.size() / 2);
+      // separate them into two different list to sort them
+      List<FlightItinerary> listOne = itineraries.subList(0, midpoint);
+      List<FlightItinerary> listTwo = itineraries.subList(midpoint, itineraries.size());
+      List<FlightItinerary> sortOne = sortCost(listOne);
+      List<FlightItinerary> sortTwo = sortCost(listTwo);
+      // private method to sort the lists regarding costs
+      return sortList(sortOne, sortTwo);
+    }
+
+  }
+  
+  /**
+   * Returns the sorted list in terms of totalCost.
+   * @param sortOne
+   *    the first list to compare values with
+   * @param sortTwo
+   *    the second list to compare values with
+   * @return
+   *    the sorted list
+   */
+  private List<FlightItinerary> sortList(List<FlightItinerary> sortOne,
+      List<FlightItinerary> sortTwo) {
+    // to store the sorted list
+    List<FlightItinerary> sortedList = new ArrayList<>();
+    while (!sortOne.isEmpty() && !sortTwo.isEmpty()) {
+      // sort by cost
+      if ((sortOne.get(0)).totalCost() < (sortTwo.get(0)).totalCost()) {
+        sortedList.add(sortOne.remove(0));
+      } else {
+        sortedList.add(sortTwo.remove(0));
+      }
+    }
+    // add the rest to the list
+    if (!sortOne.isEmpty()) {
+      sortedList.addAll(sortOne);
+    } else {
+      sortedList.addAll(sortTwo);
+    }
+
+    return sortedList;
+  }
+
+  /**
+   * Returns a list of flightItineraries sorted by travel time of each
+   * Itinerary.
+   * @param allItineraries
+   *          the list to be sorted by travel time.
+   * @return the sorted list.
+   * @throws ParseException
+   *    throws the exception if the travelTime does so 
+   */
+  public List<FlightItinerary> sortTravelTime(List<FlightItinerary> allItineraries) 
+        throws ParseException {
+    itineraries = allItineraries;
+    if (itineraries.size() < 2) {
+      return itineraries;
+    } else {
+      // separate the list in the middle
+      int midpoint = (int) Math.floor(itineraries.size() / 2);
+      // separate them into two different lists to sort them
+      List<FlightItinerary> listOne = itineraries.subList(0, midpoint);
+      List<FlightItinerary> listTwo = itineraries.subList(midpoint, itineraries.size());
+      List<FlightItinerary> sortOne = sortCost(listOne);
+      List<FlightItinerary> sortTwo = sortCost(listTwo);
+      // private method to sort the lists
+      return sortListTravel(sortOne, sortTwo);
+    }
+
+  }
+  /**
+   * Returns the sorted list in terms of TravelTime.
+   * @param sortOne
+   *    the first list to compare values with
+   * @param sortTwo
+   *    the second list to compare values with
+   * @return
+   *    the sorted list
+   * @throws ParseException
+   *    throws an exception if travelTime does
+   */
+  private List<FlightItinerary> sortListTravel(List<FlightItinerary> sortOne, 
+        List<FlightItinerary> sortTwo) throws ParseException {
+    // list to sort
+    List<FlightItinerary> sortedList = new ArrayList<>();
+
+    while (!sortOne.isEmpty() && !sortTwo.isEmpty()) {
+      // sort by time
+      if ((sortOne.get(0)).totalTravelTime() < (sortTwo.get(0)).totalTravelTime()) {
+        sortedList.add(sortOne.remove(0));
+      } else {
+        sortedList.add(sortTwo.remove(0));
+      }
+    }
+    if (!sortOne.isEmpty()) {
+      sortedList.addAll(sortOne);
+    } else {
+      sortedList.addAll(sortTwo);
+    }
+    return sortedList;
+  }
+
+  // REMIND IAN TO REMOVE CLIENTS FROM COLLABORATION
+}

@@ -1,0 +1,185 @@
+package application;
+
+import itinerary.FlightItinerary;
+import transportation.Flight;
+
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * An ItinerarySort class to sort all of the FlightItinerary objects using cost
+ * and traveltime.
+ * 
+ * @author Zain Amir, Raphael Alviz, Ian Ferguson, Andy Liang, Johnathan Tsoi
+ */
+public class ItinerarySort {
+
+  /**
+   * Returns a list of flightItineraries sorted by cost of each Itinerary.
+   * 
+   * @param itineraries
+   *          the list to sort by cost
+   * @return the sorted list.
+   */
+  public static ArrayList<FlightItinerary> sortCost(ArrayList<FlightItinerary> itineraries) {
+    if (itineraries.size() < 2) {
+      return itineraries;
+    } else {
+      // separate the list in the middle
+      int midpoint = (int) Math.floor(itineraries.size() / 2);
+      // separate them into two different list to sort them
+      ArrayList<FlightItinerary> listOne = 
+          (ArrayList<FlightItinerary>) itineraries.subList(0, midpoint);
+      ArrayList<FlightItinerary> listTwo = 
+          (ArrayList<FlightItinerary>) itineraries.subList(midpoint, itineraries.size());
+      ArrayList<FlightItinerary> sortOne = sortCost(listOne);
+      ArrayList<FlightItinerary> sortTwo = sortCost(listTwo);
+      // private method to sort the lists regarding costs
+      return sortList(sortOne, sortTwo);
+    }
+
+  }
+
+  /**
+   * Returns the sorted list in terms of totalCost.
+   * 
+   * @param sortOne
+   *          the first list to compare values with
+   * @param sortTwo
+   *          the second list to compare values with
+   * @return the sorted list
+   */
+  private static ArrayList<FlightItinerary> sortList(ArrayList<FlightItinerary> sortOne, 
+      ArrayList<FlightItinerary> sortTwo) {
+    // to store the sorted list
+    ArrayList<FlightItinerary> sortedList = new ArrayList<>();
+    int counter = 0;
+    int size = 0;
+    while (counter < sortOne.size() && size < sortTwo.size()) {
+      if ((sortOne.get(counter)).totalCost() < (sortTwo.get(size)).totalCost()) {
+        sortedList.add(sortOne.get(counter));
+        counter += 1;
+      } else {
+        sortedList.add(sortTwo.get(size));
+        size += 1;
+      }
+    }
+    if (counter == sortOne.size()) {
+      ArrayList<FlightItinerary> sublist = 
+            (ArrayList<FlightItinerary>) sortTwo.subList(size, sortTwo.size());
+      sortedList.addAll(sublist);
+    } else {
+      ArrayList<FlightItinerary> sublist = 
+            (ArrayList<FlightItinerary>) sortOne.subList(counter, sortOne.size());
+      sortedList.addAll(sublist);
+    }
+    return sortedList;
+  }
+
+  /**
+   * Returns a list of flightItineraries sorted by travel time of each
+   * Itinerary.
+   * 
+   * @param itineraries
+   *          the list to be sorted by travel time.
+   * @return the sorted list.
+   * @throws ParseException
+   *           throws the exception if the travelTime does so
+   */
+  public static ArrayList<FlightItinerary> sortTravelTime(ArrayList<FlightItinerary> itineraries) {
+    if (itineraries.size() < 2) {
+      return itineraries;
+    } else {
+      // separate the list in the middle
+      int midpoint = (int) Math.floor(itineraries.size() / 2);
+      // separate them into two different lists to sort them
+      ArrayList<FlightItinerary> listOne = 
+          (ArrayList<FlightItinerary>) itineraries.subList(0, midpoint);
+      ArrayList<FlightItinerary> listTwo = 
+          (ArrayList<FlightItinerary>) itineraries.subList(midpoint, itineraries.size());
+      ArrayList<FlightItinerary> sortOne = sortTravelTime(listOne);
+      ArrayList<FlightItinerary> sortTwo = sortTravelTime(listTwo);
+      // private method to sort the lists
+      return sortListTravel(sortOne, sortTwo);
+    }
+
+  }
+
+  /**
+   * Returns the sorted list in terms of TravelTime.
+   * 
+   * @param sortOne
+   *          the first list to compare values with
+   * @param sortTwo
+   *          the second list to compare values with
+   * @return the sorted list
+   * @throws ParseException
+   *           throws an exception if travelTime does
+   */
+  private static ArrayList<FlightItinerary> sortListTravel(ArrayList<FlightItinerary> sortOne, 
+      ArrayList<FlightItinerary> sortTwo) {
+    // to store the sorted list
+    ArrayList<FlightItinerary> sortedList = new ArrayList<>();
+    int counter = 0;
+    int size = 0;
+    while (counter < sortOne.size() && size < sortTwo.size()) {
+      if ((sortOne.get(counter)).totalTravelTime() < (sortTwo.get(size)).totalTravelTime()) {
+        sortedList.add(sortOne.get(counter));
+        counter += 1;
+      } else {
+        sortedList.add(sortTwo.get(size));
+        size += 1;
+      }
+    }
+    if (counter == sortOne.size()) {
+      ArrayList<FlightItinerary> sublist = 
+          (ArrayList<FlightItinerary>) sortTwo.subList(size, sortTwo.size());
+      sortedList.addAll(sublist);
+    } else {
+      ArrayList<FlightItinerary> sublist = 
+          (ArrayList<FlightItinerary>) sortOne.subList(counter, sortOne.size());
+      sortedList.addAll(sublist);
+    }
+    return sortedList;
+  }
+
+  public static void main(String[] args) throws ParseException {
+    Flight flight1 = new Flight("01:00:00", "04:00:00", "Toronto", "Paris", "Air Canada", "#491", 200);
+    Flight flight2 = new Flight("01:00:00", "05:00:00", "Toronto", "Paris", "Air Canada", "#491", 400);
+    Flight flight3 = new Flight("01:00:00", "10:00:00", "Toronto", "Paris", "Air Canada", "#491", 800);
+    Flight flight4 = new Flight("01:00:00", "10:00:00", "Toronto", "Paris", "Air Canada", "#491", 1000);
+    Flight flight5 = new Flight("01:00:00", "10:00:00", "Toronto", "Paris", "Air Canada", "#491", 500);
+    Flight flight6 = new Flight("01:00:00", "10:00:00", "Toronto", "Paris", "Air Canada", "#491", 2000);
+    ArrayList<Flight> flights1 = new ArrayList<>();
+    flights1.add(flight3);
+    flights1.add(flight1);
+    ArrayList<Flight> flights2 = new ArrayList<>();
+    flights2.add(flight4);
+    flights2.add(flight2);
+    ArrayList<Flight> flights3 = new ArrayList<>();
+    flights2.add(flight6);
+    flights2.add(flight5);
+    FlightItinerary itinerary1 = new FlightItinerary(flights1);
+    FlightItinerary itinerary2 = new FlightItinerary(flights2);
+    FlightItinerary itinerary3 = new FlightItinerary(flights3);
+    List<FlightItinerary> itineraries1 = new ArrayList<>();
+    itineraries1.add(itinerary2);
+    itineraries1.add(itinerary1);
+    itineraries1.add(itinerary3);
+//    List<FlightItinerary> sortbycost = ItinerarySort.sortCost(itineraries1);
+//    List<FlightItinerary> sortbytravel = ItinerarySort.sortTravelTime(itineraries1);
+//    System.out.println(sortbycost);
+//    System.out.println(sortbytravel);
+    // List<Integer> mergesort = new ArrayList<>();
+    // mergesort.add(5);
+    // mergesort.add(3);
+    // mergesort.add(6);
+    // mergesort.add(1);
+    // mergesort.add(0);
+    // mergesort.add(4);
+    // List<Integer> sortbycost = ItinerarySort.sortCost(mergesort);
+    // System.out.println(sortbycost);
+  }
+
+}

@@ -1,0 +1,109 @@
+package cs.b07.cscb07project.activities;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.EditText;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.ParseException;
+
+import cs.b07.cscb07project.R;
+import cs.b07.cscb07project.backEnd.Managers.ClientManager;
+import cs.b07.cscb07project.backEnd.Managers.PasswordManager;
+import cs.b07.cscb07project.backEnd.driver.FlightBookingApplication;
+import cs.b07.cscb07project.backEnd.users.Admin;
+import cs.b07.cscb07project.backEnd.users.Client;
+import cs.b07.cscb07project.backEnd.users.User;
+
+public class MainActivity extends AppCompatActivity {
+
+    //TODO: HAVE TO CHANGE THIS ACCORDING TO OUR EMULATOR FOR NOW!!!!!!!!!!!!!!!!!!!!!!!!!
+    public static final String FILE_PASS = "passwords.txt";
+    public static final String FILE_CLIENT = "clients.txt";
+    public static final String USER_DATA_DIR = "records_data";
+    public static final String PASS_KEY = "PasswordKey";
+    public static final String CLIENT_KEY = "ClientKey";
+
+    private PasswordManager passManager;
+    private ClientManager clientManager;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        //TODO: Remove for testing only.
+        Admin defaultAdmin = new Admin("admin");
+        //TODO: CHANGED !!!!!!!!!!!!!!!!!!!
+        FlightBookingApplication.addUser(defaultAdmin);
+        // TODO: THIS IS THE MANAGER THAT I WAS TALKING ABOUT!!!!!!!!!!!!!!!!!!!!!!
+        File userdata = this.getApplicationContext().getDir(USER_DATA_DIR, MODE_PRIVATE);
+        File passwordsFile = new File(userdata, FILE_PASS);
+        File clientsFile = new File(userdata, FILE_CLIENT);
+
+        try {
+            passManager = new PasswordManager(passwordsFile);
+            clientManager = new ClientManager(clientsFile);
+            passManager.addUser(defaultAdmin, "password");
+            Client defaultClient = new Client("client", "lastName", "firstName", "email", "address",
+                    "cardNumber", "2012-03-05");
+            //TODO: CHANGED !!!!!!!!!!!!!!!!!!!
+            passManager.addUser(defaultClient, "test");
+            FlightBookingApplication.addUser(defaultClient);
+        } catch (ParseException e) {
+            //TODO: add exception handling returning error to user.*/
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        /*passManager.saveToFile();// SAVES TO FILE!!!!!!!!!!!
+        //TODO: Remove for testing purposes only.
+        FlightBookingApplication.addFlight("489","2016-09-30 20:09","2016-09-30 20:27","FlightsRUs","Chicago","Los Angelos",300.99,8);
+        FlightBookingApplication.addFlight("490","2016-09-30 22:40","2016-10-01 01:59","Go Airline","New York","Boston",532.00,4);
+        FlightBookingApplication.addFlight("102","2016-09-30 16:43","2016-09-30 17:15","FlightsRUs","New York","Chicago",290.50,0);
+        FlightBookingApplication.addFlight("103","2016-09-30 16:37","2016-09-30 17:22","Go Airline","New York","Chicago",290.00,20);
+*/
+    }
+
+    public void logIn(View view) {
+        boolean loginSuccessful = false;
+
+        // Gets the username and password from the EditText fields.
+        EditText usernameText = (EditText) findViewById(R.id.username_field);
+        EditText passwordText = (EditText) findViewById(R.id.password_field);
+        String username = usernameText.getText().toString();
+        String password = passwordText.getText().toString();
+
+        Intent intent = new Intent(this, MainActivity.class);
+        // TODO: CHANGED THE IF STATEMENTS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        if (passManager.verifyPassword(username, password)) {
+            User user = FlightBookingApplication.getUser(username);
+            if (user.isAdmin()) {
+                intent = new Intent(this, AdminActivity.class);
+                intent.putExtra("user", user);
+                intent.putExtra(PASS_KEY,passManager);
+                intent.putExtra(CLIENT_KEY, clientManager);
+                startActivity(intent);
+            } else {
+                intent = new Intent(this, ClientActivity.class);
+                intent.putExtra("user", user);
+                startActivity(intent);
+            }
+        }
+        startActivity(intent);
+    }
+
+    public void register(View view) {
+        Intent intent = new Intent(this, RegisterActivity.class);
+        intent.putExtra(PASS_KEY,passManager);
+        intent.putExtra(CLIENT_KEY, clientManager);
+        startActivity(intent);
+    }
+
+}

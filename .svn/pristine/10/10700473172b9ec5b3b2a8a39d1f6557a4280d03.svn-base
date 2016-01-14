@@ -1,0 +1,43 @@
+Data structures used by classes in Flight Booking Application.
+
+- FlightBookingApplication: Store a static ClientDatabase and FlightDatabase data structure that acts as central repository for all application flight and user data. Acts as bridge between Flight and User classes.
+
+- ClientDatabase: (to be renamed user database when multiple user types are present) Stores all users objects (Clients and Administrators) in a hash table that maps a user’s email address (UserName in phase 3) to a user object.
+
+- ItineraryGenerator: Creates an ArrayList of FlightItinerary objects that is then passed to Client through FlightBookingApplication.
+
+- ItinerarySort: Takes an ArrayList of FlightItinerary objects from Client object through FlightBookingApplication and returns a sorted ArrayList to the Client.
+
+- Client: FlightItinerary objects are temporarily stored in ArrayList, until search is complete. FlightItinerarys must be recalculated for each search as Flights may become full or Flight info may change.
+	Booked FlightItinerary objects are moved/stored in a separate ArrayList.
+	All other user info is stored in local variables.
+
+- FlightDatabase: The FlightDatabase will store a directed adjacency list which is implemented as a set of HashSets of Flight objects nested within a HashMap, which maps the origin String of a Flight to a HashSet of Flights which depart from that origin. The FlightDatabase also stores a secondary HashMap which maps a unique flight number String to an individual Flight object (same Flight objects stored in the directed adjacency list) to allow for average O(1) retrieval times when searching for Flights by flight number, preventing having to iterate through the adjacency list in exchange for memory (however there is no duplication of Flight objects both the adjacency list and the HashMap reference the same objects.)
+
+- FlightItinerary: Sequence of pointers to Flight objects will be stored in an ArrayList (actual Flight objects are stored in the FlightDatabase, ArrayList stores pointers to the Flight objects to prevent duplication), sorted in order of Flight from origin to destination.
+
+- Flight: Stores all data in local variables. May store ArrayList of passengers if flight capacity is implemented in phase 3.
+
+- All other data: Stored in local class variables of relevant Type.
+
+DATA STORAGE:
+The following classes have been made fully serializable:
+
+Flight, Client, Administrator, FlightItinerary, FlightDatabase, ClientDatabase
+
+They can then be stored and loaded as serialized files using java's built in API.
+
+
+FILE FORMATS:
+
+Client information can be uploaded from csv files in the following format:
+
+LastName,FirstNames,Email,Address,CreditCardNumber,ExpiryDate
+
+where the expiry date is stored in the format YYYY-MM-DD.
+
+And Flight information can be uploaded from csv files in the following format:
+
+Number,DepartureDateTime,ArrivalDateTime,Airline,Origin,Destination,Price
+
+where the date and time is stored in the format YYYY-MM-DD HH:MM.

@@ -1,0 +1,101 @@
+package cs.b07.cscb07project.activities;
+
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+
+import cs.b07.cscb07project.R;
+import cs.b07.cscb07project.backEnd.application.Constants;
+import cs.b07.cscb07project.backEnd.driver.FlightBookingApplication;
+import cs.b07.cscb07project.backEnd.transportation.Flight;
+import cs.b07.cscb07project.backEnd.users.Client;
+import cs.b07.cscb07project.backEnd.users.User;
+
+public class BookFlightActivity extends AppCompatActivity {
+
+    private Flight flight;
+    private String username;
+    private User user;
+    private ListView flightInfoList;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_book_flight);
+
+        Intent intent = getIntent();
+
+        String flightNumber = intent.getStringExtra(Constants.FLIGHT);
+        flight = FlightBookingApplication.getFlight(flightNumber);
+
+        ArrayList<String> flightInfo = getFlightInfo(flight);
+
+        username = intent.getStringExtra(Constants.USERNAME);
+        user = FlightBookingApplication.getUser(username);
+
+
+        flightInfoList = (ListView) findViewById(R.id.flight_info_view);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.activity_listview, flightInfo);
+        flightInfoList.setAdapter(adapter);
+    }
+
+    public void BookFlight(View view) {
+        // checks to see if flight is full
+        boolean fullFlight = flight.getNumSeatsForSale() == 0;
+
+        // AlertDialog for full flight
+        AlertDialog.Builder fullAlert = new AlertDialog.Builder(this);
+        fullAlert.setMessage("No seats available in this flight!");
+        fullAlert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            finish();
+          }
+        })
+                .setTitle("Full Flight");
+
+        // AlertDialog for successful booking
+        AlertDialog.Builder successfulAlert = new AlertDialog.Builder(this);
+        fullAlert.setMessage("You have successfully booked this flight!");
+        fullAlert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        })
+                .setTitle("Successful Booking");
+
+        if(fullFlight) {
+          fullAlert.show();
+        }
+
+        else {
+            user.bookFlight(flight);
+            successfulAlert.show();
+        }
+
+
+    }
+
+    private ArrayList<String> getFlightInfo(Flight flight) {
+        ArrayList<String> flightInfo = new ArrayList<String>();
+
+        String flightText = String.format(Constants.FLIGHT_LISTVIEW_ROW, flight.getAirline(),
+                flight.getFlightNumber(), flight.getOrigin(), flight.getDepartureTimeString(),
+                flight.getDestination(), flight.getArrivalTimeString(), flight.getNumSeatsForSale(),
+                flight.getCostString());
+        flightInfo.add(flightText);
+
+        return flightInfo;
+    }
+
+
+}

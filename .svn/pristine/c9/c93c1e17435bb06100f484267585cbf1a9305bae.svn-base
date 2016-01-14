@@ -1,0 +1,132 @@
+package cs.b07.cscb07project.activities;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import cs.b07.cscb07project.R;
+import cs.b07.cscb07project.backEnd.Managers.ClientManager;
+import cs.b07.cscb07project.backEnd.Managers.FlightManager;
+import cs.b07.cscb07project.backEnd.Managers.PasswordManager;
+import cs.b07.cscb07project.backEnd.databases.FlightDatabase;
+import cs.b07.cscb07project.backEnd.driver.FlightBookingApplication;
+import cs.b07.cscb07project.backEnd.users.Admin;
+import cs.b07.cscb07project.backEnd.users.User;
+
+public class AdminActivity extends AppCompatActivity {
+
+    private User user;
+    public static final String FILE_NAME = "flights.txt";
+    public static final String Flight_KEY = "FlightKey";
+
+    private FlightManager manager;
+    private ClientManager clientManager;
+    private PasswordManager passwordManager;
+
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_admin);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Intent intent = getIntent();
+        user = (User) intent.getSerializableExtra("user");
+
+        File userdata = this.getApplicationContext().getDir(MainActivity.USER_DATA_DIR, MODE_PRIVATE);
+        File flightsFile = new File(userdata, FILE_NAME);
+
+        clientManager = (ClientManager)intent.getSerializableExtra(MainActivity.CLIENT_KEY);
+        passwordManager =  (PasswordManager)intent.getSerializableExtra(MainActivity.PASS_KEY);
+
+        try {
+            manager = new FlightManager(flightsFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+        return true;
+    }
+
+    public void Upload(View view) {
+        // Gets the first name from the 1st EditText field.
+        EditText fileName = (EditText) findViewById(R.id.flight_file);
+        String fileNameText = fileName.getText().toString();
+
+        File userdata = this.getApplicationContext().getDir(MainActivity.USER_DATA_DIR, MODE_PRIVATE);
+        File flightsFile = new File(userdata, fileNameText);
+
+        manager.uploadFlightInfo(flightsFile.getPath());
+
+
+        Intent intent = new Intent(this, UploadFlightActivity.class);
+        intent.putExtra(Flight_KEY, manager);
+        startActivity(intent);
+    }
+
+    public void UploadClients(View view){
+        // Gets the first name from the 1st EditText field.
+        EditText fileName = (EditText) findViewById(R.id.client_file);
+        String fileNameText = fileName.getText().toString();
+
+        File userdata = this.getApplicationContext().getDir(MainActivity.USER_DATA_DIR, MODE_PRIVATE);
+        File clientsFile = new File(userdata, fileNameText);
+
+        clientManager.uploadUserInfo(clientsFile.getPath());
+
+        Intent uploadclient = new Intent(this, UploadClientActivity.class);
+        uploadclient.putExtra(MainActivity.CLIENT_KEY, clientManager);
+        startActivity(uploadclient);
+    }
+
+    public void UploadPass(View view){
+        // Gets the first name from the 1st EditText field.
+        EditText fileName = (EditText) findViewById(R.id.password_file);
+        String fileNameText = fileName.getText().toString();
+
+        File userdata = this.getApplicationContext().getDir(MainActivity.USER_DATA_DIR, MODE_PRIVATE);
+        File passFile = new File(userdata, fileNameText);
+
+        passwordManager.uploadPasswordManager(passFile.getPath());
+
+        Intent intent = new Intent(this, UploadPasswordActivity.class);
+        intent.putExtra(MainActivity.PASS_KEY, passwordManager);
+        startActivity(intent);
+    }
+
+    public void addFlight(View view){
+        Intent intent = new Intent(this, AddFlightActivity.class);
+        intent.putExtra("user", user);
+        startActivity(intent);
+    }
+
+    public void searchFlights(View view) {
+        Intent intent = new Intent(this, SearchFlightsActivity.class);
+        intent.putExtra("user", user);
+        startActivity(intent);
+    }
+
+    public void searchItineraries(View view) {
+        Intent intent = new Intent(this, SearchItinerariesActivity.class);
+        intent.putExtra("user", user);
+        startActivity(intent);
+    }
+
+}

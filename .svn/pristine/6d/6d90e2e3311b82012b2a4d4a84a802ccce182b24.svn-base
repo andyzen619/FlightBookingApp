@@ -1,0 +1,54 @@
+package cs.b07.cscb07project.activities;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+
+import cs.b07.cscb07project.R;
+import cs.b07.cscb07project.backend.application.Constants;
+import cs.b07.cscb07project.backend.driver.FlightBookingApplication;
+
+public class UploadClientActivity extends AppCompatActivity {
+
+  private String username;
+  //private ClientManager clientManager;
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_upload_client);
+    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    setSupportActionBar(toolbar);
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+    Intent intent = getIntent();
+    username = intent.getStringExtra(Constants.USERNAME);
+    /* get the manager that was put into the Intent with key Flight_Key
+    clientManager = (ClientManager)intent.getSerializableExtra(MainActivity.CLIENT_KEY);
+    */
+    String content = FlightBookingApplication.getUserDatabase().toString();
+    TextView view = (TextView) findViewById(R.id.display_users);
+    view.setText(content);
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    Intent intent = new Intent(getApplicationContext(), AdminActivity.class);
+    intent.putExtra(Constants.USERNAME, username);
+    startActivity(intent);
+    return true;
+  }
+
+  public void saveToFile(View view) {
+    // Save the information to the file
+    MainActivity.clientManager.saveToFile();
+
+    // TODO:FIND A WAY TO GO BACK!!!!!!!!!!!!!!!!!!!!
+  }
+
+}

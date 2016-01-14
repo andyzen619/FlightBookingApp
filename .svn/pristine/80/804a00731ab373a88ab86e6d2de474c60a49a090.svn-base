@@ -1,0 +1,124 @@
+package cs.b07.cscb07project.backEnd.users;
+
+import cs.b07.cscb07project.backEnd.driver.FlightBookingApplication;
+import cs.b07.cscb07project.backEnd.itinerary.FlightItinerary;
+import cs.b07.cscb07project.backEnd.transportation.Flight;
+
+import java.io.Serializable;
+
+/**
+ * An abstract class representing basic functionality common to all users of the
+ * Flight Booking Application.
+ * 
+ * @author Raphael Alviz, Zain Amir, Ian Ferguson, Andy Liang, Johnathan Tsoi
+ */
+public abstract class User implements Serializable {
+
+	/**
+	 * Serialization.
+	 */
+	private static final long serialVersionUID = -7298361757696444194L;
+	private String userName;
+	private boolean isAdmin;
+
+	/**
+	 * Returns true if and only if this user is an admin.
+	 * 
+	 * @return true if and only if this user is an admin.
+	 */
+	public boolean isAdmin() {
+		return this.isAdmin;
+	}
+
+	/**
+	 * Creates a new user object with the given user name and password.
+	 * 
+	 * @param userName
+	 *            A String user name for the given user (must be unique).
+	 */
+	public User(String userName, boolean isAdmin) {
+		this.userName = userName;
+		this.isAdmin = isAdmin;
+	}
+
+	/**
+	 * Returns the user name of this user object.
+	 * 
+	 * @return A String of the user name for this user.
+	 */
+	public String getUserName() {
+		return userName;
+	}
+
+	/**
+	 * Returns a String representation of all flights that depart from the given
+	 * origin and arrive at the given destination on the given date.
+	 * 
+	 * @param date
+	 *            A String representing the date on which the Flights will
+	 *            depart given in the YYYY-MM-DD format.
+	 * @param origin
+	 *            A String representing the origin from which the Flights
+	 *            depart.
+	 * @param destination
+	 *            A String representing the destination of the Flights
+	 * @return The flights that depart from origin and arrive at destination on
+	 *         the given date formatted with one flight per line in exactly this
+	 *         format: Number,DepartureDateTime,
+	 *         ArrivalDateTime,Airline,Origin,Destination,Price (the dates are
+	 *         in the format YYYY-MM-DD; the price has exactly two decimal
+	 *         places).
+	 */
+	public String searchFlights(String date, String origin, String destination) {
+		return FlightBookingApplication.getFlights(date, origin, destination);
+	}
+
+	/**
+	 * Returns all itineraries that depart from origin and arrive at destination
+	 * on the given date. With no lees than 30 minutes stop over time and no
+	 * more than 6 hours stop over time between the arrival and departure of a
+	 * Flight.
+	 * 
+	 * @param date
+	 *            A String representing a departure date (in the format
+	 *            YYYY-MM-DD).
+	 * @param origin
+	 *       	  A String representing the origin of the itineraries.
+	 * @param destination
+	 *            A String representing the final destination of the
+	 *            itineraries.
+	 * @return itineraries that depart from origin and arrive at destination on
+	 *         the given date with stop overs at or under 6 hours. Each
+	 *         itinerary in the output should contain one line per flight, in
+	 *         the format:
+	 *         Number,DepartureDateTime,ArrivalDateTime,Airline,Origin
+	 *         ,Destination followed by total price (on its own line, exactly
+	 *         two decimal places), followed by total duration (on its own line,
+	 *         in format HH:MM).
+	 */
+	public String searchItineraries(String date, String origin,
+			String destination) {
+		return FlightBookingApplication.getItineraries(date, origin,
+				destination);
+	}
+
+	/**
+	 * Allows the user to book a flight which adds the flight to the user's list
+	 * of booked flights and also decreases the number of available spaces for that
+	 * flight.
+	 * 
+	 * @param flight
+	 * 			  A flight that is to be booked.
+	 */
+	public abstract void bookFlight(Flight flight);
+
+	/**
+	 * Allows the user to book a flight itinerary which adds the itinerary to the user's
+	 * list of booked itineraries. It also decrease the number of seats available by one
+	 * on each of the flights that in the itinerary.
+	 * 
+	 * @param itinerary
+	 *           A flight itinerary that is to be booked.
+	 */
+	public abstract void bookFlightItinerary(FlightItinerary itinerary);
+}

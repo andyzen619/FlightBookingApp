@@ -1,0 +1,52 @@
+Planning Meeting 1 (2015-11-09)
+Current State of the Project
+	- Initial meeting no work yet completed
+	Done at meeting: 
+	- CRC model, both groups had similar design. Attempted 	to merge designs to maximize modularity and extensability.
+	- Assigned responsibilities to individual members.
+	- Set status meeting for Wed at 1:00pm.
+
+Tasks for this week (to be completed for Fri Nov 13):
+	- Implement User (parent), Client (child of User) and Administrator (child of User) classes. Note all 3 classes must be serializable, and throw exception if incorrect data is inputted. (Raphael)
+	- Implement Transportation (parent) and Flight (child of Transportation) classes. Note both classes must be serializable, and throw exception if incorrect data is inputted.(Andy)
+	- Implement FlightDatabase (2D hashmap graph (adjacency list), mapping origin to a list or set of Flights leaving from that origin). Note must be serializable. (Ian)
+	- Implement Itinerary Generator (Finds all valid paths fromorigin to destination). (Ian)
+	- Implement Itinerary Sort (in place Merge sort). (Zain)
+	- Implement Itinerary class. Note must be serializable.(Zain)
+	- Implement the child of Itinerary FlightItinerary. (Zain)
+	- Implement Flight Booking Application (Books flight for client, adds passenger to booked flights, checks that flights are not overbooked before booking). (John)
+	- Implement System/Drive class (load/save user and flight data using serialization, login client or administrator (hashmap mapping usernames to Users)). (John)
+
+
+
+Status Meeting 1 (2015-11-11)
+Group:
+	- Discussed implimentation of transportation and flight 	class.
+	- Agreed to remove flight capacity as no mention of it is 	made in the handout.
+	- Agreed to rename crc driver class to system to prevent 	conflict with driver class that will be used for testing.
+	- Discussed package design based on class discussion, may 	make minor changes to current design on Fri-Sat once all 	classes are implimented.
+Andy:
+	- Started implimentation of Transportation and Flight 	classes.
+	- Will change variable types as decided by group (remove 	static and transient).
+	- Will redo getter/setters to match group format.
+	- Will add full documentation to classes and class methods.
+	- Will make all classes checkstyle compliant.
+	- Will remove flight capacity, passenger list, etc.
+	- Will impliment algorithm to calculate travel time.
+Ian:
+	- Will start implimenting classes today, and finish before 	Friday as per schedule.
+	- Will impliment FlightDatabase and ItineraryGenerator.
+	- Will complete FlightDatabase by Thurs, and 	ItineraryGenerator by end of Fri or before.
+	- Will update crc design on Friday with changes/improvements 	found during implimentation.
+	- Will add data.txt explaining data structures by/on 	Saturday once all class implimentation is finalized.
+Zain:
+	- Started implimentation on Itinerary and FlightItinerary 	classes.
+	- Will add FlightItinerary constructor from list of Flights.
+	- Will impliment sorting algorithm for FlightItineraries by 	time and cost (discussed in-place sorting using merge-sort).
+John:
+	- Will impliment classes before/on Friday as per schedule.
+	- Will now create a seperate class for loading and saving to 	disk using serialization, instead of implimenting in system 	class as in original design.
+Raphael:
+	- Will impliment classes before/on Friday as per schedule.
+	- Classes are still unchanged as in original design.
+

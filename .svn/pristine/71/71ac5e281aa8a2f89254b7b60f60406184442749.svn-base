@@ -1,0 +1,108 @@
+package itinerary;
+
+import transportation.Flight;
+
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * A FlightItinerary class that holds all flights from origin to destination.
+ * Allows the user to calculate cost of each itinerary and get travel time.
+ * 
+ * @author Zain Amir, Ian Ferguson, Andy Liang, Johnathan Tsoi and Raphael Alviz
+ */
+public class FlightItinerary extends Itinerary {
+
+  // instance variable to hold all flights in this Itinerary
+  private List<Flight> flights;
+
+  /**
+   * Constructor for initializing the FlightItinerary by taking in origin,
+   * destination & departureDateTime.
+   * 
+   * @param origin
+   *          the origin the first flight
+   * @param destination
+   *          the destination the last flight stops to in the itinerary
+   * @param departureDateTime
+   *          the Date & Time the first flight in the itinerary leaves at
+   */
+  public FlightItinerary(String origin, String destination, String departureDateTime) {
+    super(origin, destination, departureDateTime);
+    flights = new ArrayList<Flight>();
+  }
+
+  /**
+   * Allows the ItineraryGenerator to add flights as it generates an
+   * FlightItinerary.
+   * 
+   * @param flight
+   *          Takes a Flight object and adds it to the end of the flights list.
+   */
+  public void addFlight(Flight flight) {
+    flights.add(flight);
+  }
+
+  /**
+   * Method Overload. Allows the ItineraryGenerator to add a list of flights as
+   * it generates FlightItinerary.
+   * 
+   * @param allFlights
+   *          A list of flights that this Itinerary holds.
+   */
+  public void addFlight(List<Flight> allFlights) {
+    flights = allFlights;
+  }
+
+  /**
+   * Calculates the total cost of the itinerary.
+   * 
+   * @return the total cost calculated using each flight's getCost method.
+   */
+  public double totalCost() {
+    double totalCost = 0;
+    for (Flight flight : flights) {
+      // get the cost of each flight
+      totalCost += flight.getCost();
+    }
+    return totalCost;
+  }
+
+  /**
+   * Calculates the total travel time of the itinerary.
+   * 
+   * @return the total travel time using each flight's getTravelTime method.
+   * @throws ParseException
+   *           throws an exception if the format is not correct
+   */
+  public double totalTravelTime() throws ParseException {
+    double travelTime = 0;
+    for (Flight flight : flights) {
+      travelTime += flight.travelTime();
+    }
+    return travelTime;
+  }
+
+  /**
+   * Returns the List of all the flights from origin to destination in order.
+   * 
+   * @return the List of all flights called flights.
+   */
+  public List<Flight> sequenceOfFlights() {
+    return flights;
+  }
+
+  @Override
+  public String toString() {
+    String flight = "";
+    for (Flight each : flights) {
+      flight += each.toString() + "\n";
+    }
+    return flight;
+  }
+
+  // ASK ABOUT PARSEEXCEPTION
+  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+}

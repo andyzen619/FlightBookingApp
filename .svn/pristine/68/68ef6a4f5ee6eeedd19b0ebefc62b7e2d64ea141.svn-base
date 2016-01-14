@@ -1,0 +1,75 @@
+package cs.b07.cscb07project.backEnd.databases;
+
+import cs.b07.cscb07project.backEnd.users.User;
+
+import java.io.Serializable;
+import java.util.HashMap;
+
+/**
+ * A database used to verify usernames and passwords.
+ * @author Raphael Alviz, Zain Amir, Ian Ferguson, Andy Liang, Johnathan Tsoi
+ */
+public class PasswordManager implements Serializable {
+
+  /**
+   * Serialization.
+   */
+  private static final long serialVersionUID = 3609098958223080939L;
+  
+  private HashMap<String, String> passwordDatabase;
+
+  /**
+   * Creates a new empty PasswordDatabase object.
+   */
+  public PasswordManager() {
+    passwordDatabase = new HashMap<String, String>();
+  }
+  
+  /**
+   * Adds a username and password pair to the PasswordDatabase using the given username as
+   * the key.
+   * @param username A String representation of the users username.
+   * @param password A String representation of the users password.
+   */
+  public void addUser(String username, String password) {
+    passwordDatabase.put(username, password);
+  }
+  
+  /**
+   * Adds a username and password pair to the PasswordDatabase using the given username as
+   * the key.
+   * @param user A User object to be added to the PasswordDatabase.
+   * @param password A String representation of the users password.
+   */
+  public void addUser(User user, String password) {
+    passwordDatabase.put(user.getUserName(), password);
+  }
+  
+  /**
+   * Returns the password associated with the given username.
+   * @param username A String of the username associated with the password to be returned.
+   * @return A String of the password associated with the given username.
+   */
+  public String getPassword(String username) {
+    return passwordDatabase.get(username);
+  }
+  
+  /**
+   * Returns true if and only if the given password is an exact match to the password
+   * associated with the given username.
+   * @param username A String representing the username to be verified.
+   * @param password A String representing the password to be checked against the given
+   *     username.
+   * @return true if and only if the given password is an exact match to the password
+   *     associated with the given username. (Case sensitive).
+   */
+  public boolean verifyPassword(String username, String password) {
+    boolean isValid = false;
+    if (passwordDatabase.get(username).equals(password)) {
+      isValid = true;
+    }
+    return isValid;
+    
+  }
+  
+}

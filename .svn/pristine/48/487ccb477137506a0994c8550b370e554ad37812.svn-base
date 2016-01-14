@@ -1,0 +1,19 @@
+/**
+ * 
+ */
+package application;
+
+/**
+ * 
+ * @author Raphael Alviz, Zain Amir, Ian Ferguson, Andy Liang, Johnathan Tsoi
+ */
+public class BookFlightItinerary extends BookItinerary {
+
+  /**
+   * 
+   */
+  public BookFlightItinerary() {
+    // TODO Auto-generated constructor stub
+  }
+
+}

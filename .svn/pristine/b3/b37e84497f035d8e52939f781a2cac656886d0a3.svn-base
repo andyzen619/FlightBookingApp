@@ -1,0 +1,15 @@
+Planning Meeting 1 (2015-11-23)
+Current State of the Project
+	- Initial meeting no major work yet completed just a few layouts
+	Done at meeting: 
+	- Assigned responsibilities to individual members.
+	- Set status meeting for Wed at 1:00pm.
+
+Tasks for this week (to be completed for Fri Nov 27):
+	- Impement upload flight information from Adminstrator (Zain). This has to be done by part a before the interview
+	- Implement Client can search for Itineraries (Ian). This has to be done along with upload flight info for the interview.
+	- Impleement upload Personal and billing info for client and Admin (Zain/Ian). 
+	- Implement Login page to match the Username and Password with the appropriate Client and Adminstrator using passwors.txt (Raphael/John).
+	- Implement sorting Itineraries by Cost and Travel time upon searched Itineraries (Ian).
+	- Implement Booking backend and front end (Andy).
+

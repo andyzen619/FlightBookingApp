@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">"Lab8 "</string>
+    <string name="action_settings">Settings</string>
+    <string name="greeting">Welcome to our first Android App!</string>
+    <string name="enter_text">Enter text here</string>
+    <string name="go">Go!</string>
+</resources>

@@ -1,0 +1,80 @@
+package transportation;
+
+import java.io.Serializable;
+
+/**
+ * Representation of a flight object.
+ * 
+ * @author Raphael Alviz, Zain Amir, Ian Ferguson, Andy Liang, Johnathan Tsoi
+ */
+public class Flight extends Transportation implements Serializable {
+  // Private instance variables.
+  private static final long serialVersionUID = -5290186165067329550L;
+  private String flightNumber;
+  private String airline;
+
+  /**
+   * Creates a flight object with all valid information.
+   * 
+   * @param departureTime
+   *          The departure time of the Flight to be created.
+   * @param arrivalTime
+   *          The arrival time of the Flight to be created.
+   * @param origin
+   *          The name of the city from which the Flight originates.
+   * @param destination
+   *          The name of the destination city of the Flight.
+   * @param cost
+   *          The cost of the Flight.
+   * @param flightNumber
+   *          The unique flight number associated with the Flight
+   * @param airline
+   *          The name of the airline of the Flight to be created.
+   */
+  public Flight(String departureTime, String arrivalTime, String origin, 
+      String destination, double cost, String flightNumber, String airline) {
+    super(departureTime, arrivalTime, origin, destination, cost);
+    this.flightNumber = flightNumber;
+    this.airline = airline;
+  }
+
+  /**
+   * @return the flightNumber
+   */
+  public String getFlightNumber() {
+    return flightNumber;
+  }
+
+  /**
+   * @param flightNumber
+   *          the flightNumber to set
+   */
+  public void setFlightNumber(String flightNumber) {
+    this.flightNumber = flightNumber;
+  }
+
+  /**
+   * @return the airline
+   */
+  public String getAirline() {
+    return airline;
+  }
+
+  /**
+   * @param airline
+   *          the airline to set
+   */
+  public void setAirline(String airline) {
+    this.airline = airline;
+  }
+
+  @Override
+  public String toString() {
+    // ADD TRAVEL TIME AT THE END AFTER YOU REMOVE PARSE EXCEPTION!!!!!!!!!!!!!!!!!!!!!!!!!!
+    return ("Flight Number:" + flightNumber + " Departure Date and Time:" + getDepartureTime() 
+        + " Arrival Date and Time:" + getArrivalTime() + " Airline:" + airline + " Origin:" 
+        + getOrigin() + " Destination:" + getDestination() + " Cost:" + String.valueOf(getCost()) 
+        + " Total travel time:" );
+  }
+
+}

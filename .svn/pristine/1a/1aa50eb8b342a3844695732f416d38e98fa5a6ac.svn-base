@@ -1,0 +1,83 @@
+<resources>
+    <string name="app_name">CSCB07 Project</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_user_name">User Name</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_register">Register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_user_name">This user name is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+
+    <!-- Strings related to Itinerary Search-->
+    <string name="search_itineraries">Search available itineraries</string>
+    <string name="get_itinerary_data">Search all available itineraries:</string>
+
+    <!-- Strings related to Flight Search-->
+    <string name="get_flight_data">Search all available flights:</string>
+    <string name="search_flights">Search available flights</string>
+    <string name="departure_date">Departure Date YYYY-MM-DD</string>
+    <string name="travel_origin">Travel Origin</string>
+    <string name="travel_destination">Travel Destination</string>
+    <string name="sort">Sort: </string>
+    <string name="sort_by_time">by time</string>
+    <string name="sort_by_cost">by cost</string>
+
+    <!-- Strings related to Activity Titles-->
+    <string name="title_activity_main">CSCB07 - Flight Booking Application</string>
+    <string name="title_activity_client">Client</string>
+    <string name="title_activity_search_flights">Search Flights</string>
+    <string name="title_activity_view_flights">View Flights</string>
+    <string name="title_activity_admin">Administrator</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="title_activity_register">Register</string>
+    <string name="title_activity_search_itineraries">Search Flight Itineraries</string>
+    <string name="title_activity_view_itineraries">Itineraries</string>
+    <string name="title_activity_view_profile">Client Profile</string>
+    <string name="title_activity_edit_profile">Edit Profile</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+
+    <!-- Strings related to Admin -->
+    <string name="upload_flight">Upload Flights</string>
+    <string name="upload_pass">Upload Passwords</string>
+    <string name="add_flight">add Flight</string>
+    <string name="flight">Choose the file to upload for flights</string>
+    <string name="client">Choose the file to upload for clients</string>
+    <string name="pass">Choose the file to upload for Passwords</string>
+    <string name="upload_client">Upload Clients</string>
+    <string name="title_activity_upload_flight">UploadFlightActivity</string>
+    <string name="Save">Save</string>
+
+    <!-- Strings related to Client -->
+    <string name="upload_Info">Upload Information</string>
+    <string name="profile">Client Profile</string>
+    <string name="edit">Edit</string>
+
+    <!-- Strings related to Register Page -->
+    <string name="register">Register</string>
+    <string name="credit_card">Credit Card Number</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="address">Address</string>
+    <string name="credit_card_expiery_date">Credit Card Expiery Date</string>
+    <string name="title_activity_add_flight">AddFlight</string>
+
+    <!-- Strings related to AddFlight Page -->
+    <string name="add_flight_obj">Add/Update Flight</string>
+    <string name="flight_number">Flight Number</string>
+    <string name="departure_date_time">Departure: YYYY-MM-DD HH:MM</string>
+    <string name="arrival_date_time">Arrival: YYYY-MM-DD HH:MM</string>
+    <string name="airline">Airline</string>
+    <string name="origin">Origin</string>
+    <string name="destination">Destination</string>
+    <string name="price">Price</string>
+    <string name="num_seats">Number of Seats</string>
+    <string name="title_activity_upload_password">UploadPasswordActivity</string>
+
+</resources>

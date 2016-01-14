@@ -1,0 +1,149 @@
+package transportation;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.concurrent.TimeUnit;
+
+/**
+ * Representation of a transportation object.
+ * 
+ * @author Raphael Alviz, Zain Amir, Ian Ferguson, Andy Liang, Johnathan Tsoi
+ */
+public abstract class Transportation implements Serializable {
+
+  private static final long serialVersionUID = 4542302622039770097L;
+  protected String arrivalTime;
+  protected String departureTime;
+  protected String destination;
+  protected String origin;
+  protected double cost;
+  protected transient double travelTime;
+
+  /**
+   * Creates a Transportation object with all valid information.
+   * 
+   * @param departureTime
+   *          the departure time of the transportation.
+   * @param arrivalTime
+   *          the arrival time of the transportation.
+   * @param origin
+   *          the origin of the transportation.
+   * @param destination
+   *          the destination of the transportation.
+   * @param cost
+   *          the cost of the trip.
+   */
+  public Transportation(String departureTime, String arrivalTime, String origin,
+      String destination, double cost) {
+    this.arrivalTime = arrivalTime;
+    this.departureTime = departureTime;
+    this.destination = destination;
+    this.origin = origin;
+    this.cost = cost;
+    this.travelTime = 0.0;
+  }
+
+  public double getCost() {
+    return cost;
+  }
+
+  public void setCost(double cost) {
+    this.cost = cost;
+  }
+
+  /**
+   * Returns the arrival time.
+   * 
+   * @return the arrivalTime
+   */
+  public String getArrivalTime() {
+    return arrivalTime;
+  }
+
+  /**
+   * Sets the arrival time.
+   * 
+   * @param arrivalTime
+   *          the arrivalTime to set
+   */
+  public void setArrivalTime(String arrivalTime) {
+    this.arrivalTime = arrivalTime;
+  }
+
+  /**
+   * Return the departure time.
+   * 
+   * @return the departureTime
+   */
+  public String getDepartureTime() {
+    return departureTime;
+  }
+
+  /**
+   * Sets the departure time.
+   * 
+   * @param departureTime
+   *          the departureTime to set
+   */
+  public void setDepartureTime(String departureTime) {
+    this.departureTime = departureTime;
+  }
+
+  /**
+   * return the destination.
+   * 
+   * @return the destination
+   */
+  public String getDestination() {
+    return destination;
+  }
+
+  /**
+   * Set the destination.
+   * 
+   * @param destination
+   *          the destination to set
+   */
+  public void setDestination(String destination) {
+    this.destination = destination;
+  }
+
+  /**
+   * Return the origin.
+   * 
+   * @return the origin
+   */
+  public String getOrigin() {
+    return origin;
+  }
+
+  /**
+   * Sets the origin.
+   * 
+   * @param origin
+   *          the origin to set
+   */
+  public void setOrigin(String origin) {
+    this.origin = origin;
+  }
+
+  /**
+   * Return the time it takes from origin to destination.
+   * 
+   * @return the total travel time.
+   * @throws ParseException
+   */
+  public Double travelTime() throws ParseException {
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    Date date1 = format.parse(getDepartureTime());
+    Date date2 = format.parse(getArrivalTime());
+    long difference = (date2.getTime() - date1.getTime());
+    double inMinutes = (TimeUnit.MILLISECONDS.toMinutes(difference));
+    double inHours = inMinutes / 60;
+    return inHours;
+
+  }
+
+}

@@ -1,0 +1,45 @@
+package cs.b07.cscb07project.activities;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+
+import cs.b07.cscb07project.R;
+import cs.b07.cscb07project.backEnd.driver.FlightBookingApplication;
+
+public class UploadFlightActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_upload_flight);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+    }
+
+    public void uploadFlight(String path) {
+        // get the Intent that launched me
+        Intent intent = getIntent();
+
+        // get the String that was put into the Intent with key dataKey
+        String data = (String) intent.getSerializableExtra("dataKey");
+
+        // upload the file using the method in FlightBookingApplication
+        FlightBookingApplication.uploadFlightInfo(data);
+
+    }
+
+}

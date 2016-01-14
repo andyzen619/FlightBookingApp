@@ -1,0 +1,49 @@
+package application;
+
+import transportation.Flight;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Set;
+
+/**
+ * 
+ * @author Raphael Alviz, Zain Amir, Ian Ferguson, Andy Liang, Johnathan Tsoi
+ */
+public class ItineraryGenerator {
+  
+  /**
+   * Returns an ArrayList of Flights departing on the given date, from the given origin
+   * to the given destination
+   * @param database The FlightDatabase object containing the Flights to be searched.
+   * @param date A String YYYY-MM-DD representing the departure date of Flights to be
+   * returned.
+   * @param origin A String representing the origin city of the Flights to be returned.
+   * @param destination A String representing the destination city of the Flights to be
+   * returned.
+   * @return An ArrayList of Flights from origin to destination departing on date.
+   * @throws ParseException If date is given in format other than YYYY-MM-DD.
+   */
+  public static ArrayList<Flight> getFlights(FlightDatabase database, String date,
+      String origin, String destination) throws ParseException {
+    Set<Flight> flights = database.getDepartingFlights(origin);
+    ArrayList<Flight> departingFlights = new ArrayList<Flight>();
+    if (flights == null) {
+      return departingFlights;
+    } else {
+      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+      Date userDepartingDate = dateFormat.parse(date);
+      for (Flight flight : flights) {
+        Date flightDepartingDate = dateFormat.parse(flight.getDepartureTime());
+        if (userDepartingDate.equals(flightDepartingDate) &&
+            flight.getDestination().equals(destination)) {
+          departingFlights.add(flight);
+        }
+      }
+      return departingFlights;
+    }    
+  }
+
+}

@@ -1,0 +1,77 @@
+package cs.b07.cscb07project.activities;
+
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+
+import cs.b07.cscb07project.R;
+import cs.b07.cscb07project.backEnd.application.Constants;
+import cs.b07.cscb07project.backEnd.transportation.Flight;
+import cs.b07.cscb07project.backEnd.users.Client;
+import cs.b07.cscb07project.backEnd.users.User;
+
+public class BookFlightActivity extends AppCompatActivity {
+
+    private Flight flight;
+    private User username;
+    private ListView flightInfoList;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_book_flight);
+
+        Intent intent = getIntent();
+
+        flight = (Flight) intent.getSerializableExtra(Constants.FLIGHT);
+
+        ArrayList<String> flightInfo = getFlightInfo(flight);
+
+        username = (User) intent.getSerializableExtra(Constants.USERNAME);
+
+        flightInfoList = (ListView) findViewById(R.id.flight_info_view);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.activity_listview, flightInfo);
+        flightInfoList.setAdapter(adapter);
+    }
+
+    public void onButtonClicked(View view) {
+        // checks to see if flight is full
+        boolean fullFlight = flight.getNumSeatsForSale() == 0;
+
+        if(fullFlight) {
+            finish();
+        }
+        else {
+            username.bookFlight(flight);
+
+            //Intent intent = new Intent(this, RecieptActivy.class) TODO after comfirmation
+
+            finish();
+        }
+
+    }
+
+    private ArrayList<String> getFlightInfo(Flight flight) {
+        ArrayList<String> flightInfo = new ArrayList<String>();
+
+        flightInfo.add(Constants.FLIGHT_LISTVIEW_ROW);
+        flightInfo.add(flight.getAirline());
+        flightInfo.add(flight.getFlightNumber());
+        flightInfo.add(flight.getOrigin());
+        flightInfo.add(flight.getDepartureTimeString());
+        flightInfo.add(flight.getDestination());
+        flightInfo.add(flight.getArrivalTimeString());
+        flightInfo.add(Integer.toString(flight.getNumSeatsForSale()));
+        flightInfo.add(flight.getCostString());
+
+        return flightInfo;
+    }
+
+
+}

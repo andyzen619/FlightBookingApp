@@ -1,0 +1,16 @@
+package users;
+
+/**
+ * 
+ * @author Raphael Alviz, Zain Amir, Ian Ferguson, Andy Liang, Johnathan Tsoi
+ */
+public class Administrator extends User {
+
+  /**
+   * 
+   */
+  public Administrator() {
+    // TODO Auto-generated constructor stub
+  }
+
+}

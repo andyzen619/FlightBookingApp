@@ -1,0 +1,91 @@
+Planning Meeting 1 (2015-11-09)
+Current State of the Project
+	- Initial meeting no work yet completed
+	Done at meeting: 
+	- CRC model, both groups had similar design. Attempted 	to merge designs to maximize modularity and extensability.
+	- Assigned responsibilities to individual members.
+	- Set status meeting for Wed at 1:00pm.
+
+Tasks for this week (to be completed for Fri Nov 13):
+	- Implement User (parent), Client (child of User) and Administrator (child of User) classes. Note all 3 classes must be serializable, and throw exception if incorrect data is inputted. (Raphael)
+	- Implement Transportation (parent) and Flight (child of Transportation) classes. Note both classes must be serializable, and throw exception if incorrect data is inputted.(Andy)
+	- Implement FlightDatabase (2D hashmap graph (adjacency list), mapping origin to a list or set of Flights leaving from that origin). Note must be serializable. (Ian)
+	- Implement Itinerary Generator (Finds all valid paths fromorigin to destination). (Ian)
+	- Implement Itinerary Sort (in place Merge sort). (Zain)
+	- Implement Itinerary class. Note must be serializable.(Zain)
+	- Implement the child of Itinerary FlightItinerary. (Zain)
+	- Implement Flight Booking Application (Books flight for client, adds passenger to booked flights, checks that flights are not overbooked before booking). (John)
+	- Implement System/Drive class (load/save user and flight data using serialization, login client or administrator (hashmap mapping usernames to Users)). (John)
+
+
+
+Status Meeting 1 (2015-11-11)
+Group:
+	- Discussed implementation of transportation and flight class.
+	- Agreed to remove flight capacity as no mention of it is made in the handout.
+	- Agreed to rename crc driver class to system to prevent conflict with driver class that will be used for testing.
+	- Discussed package design based on class discussion, may make minor changes to current design on Fri-Sat once all classes are implimented.
+Andy:
+	- Started implementation of Transportation and Flight classes.
+	- Will change variable types as decided by group (remove static and transient).
+	- Will redo getter/setters to match group format.
+	- Will add full documentation to classes and class methods.
+	- Will make all classes checkstyle compliant.
+	- Will remove flight capacity, passenger list, etc.
+	- Will impliment algorithm to calculate travel time.
+Ian:
+	- Will start implimenting classes today, and finish before Friday as per schedule.
+	- Will implement FlightDatabase and ItineraryGenerator.
+	- Will complete FlightDatabase by Thurs, and ItineraryGenerator by end of Fri or before.
+	- Will update crc design on Friday with changes/improvements found during implimentation.
+	- Will add data.txt explaining data structures by/on Saturday once all class implimentation is finalized.
+Zain:
+	- Started implementation on Itinerary and FlightItinerary classes.
+	- Will add FlightItinerary constructor from list of Flights.
+	- Will implement sorting algorithm for FlightItineraries by time and cost (discussed in-place sorting using merge-sort).
+John:
+	- Will implement classes before/on Friday as per schedule.
+	- Will now create a seperate class for loading and saving to disk using serialization, instead of implementing in system class as in original design.
+Raphael:
+	- Will implement classes before/on Friday as per schedule.
+	- Classes are still unchanged as in original design.
+
+Planning Meeting 2 (2015-11-13)
+Current State of the Project:
+	Done: FlightItinerary, FlightDatabase
+	Almost done: Client, Transportation,Flight,ItinerarySort,ItinearyGenerator, Drive
+	
+	Tasks for this weekened (to be completed for Sat Nov 15):
+
+	- Disscussed to get rid off excess classes not required for this phase like Booking classes, Itinerary and Adminstrator.
+	- Talked about raising exceptions for no user existance, wrong file format and wrong date inputs
+
+	Andy: 
+	- Take Parse Exception from travelTime to constructor
+	- Implement Java docs for his assigned classes
+	- Change the formatting of the date to match the one in the file as decided by the group
+	- Will change protected variables to private variable
+	- Also will move private travelTime variable from private class variable to method variable 
+	Zain: 
+	- Implement a method to return Itinerary information
+	- Change the ItinerarySort to static methods so that they can be accessed without the object creation
+	- Combine Itinerary and FlightIntinerary into one class for better functionality for searching Itineraries (design decision by the group)
+	Raphael:
+	- Implement upload flight information by adminstrator
+	- Also will implement serialization
+	- Throw exceptions to files not in correct format likes dates of departureDate,ExpiryDate, etc.
+	John:
+	- Commit his files by Friday
+	- Implement the rest of his methods in the Drive class
+	- Implement Client Database that was decided to be added to our project (decision by the group)
+	Ian: 
+	- Add an exception to his FlightDatabse
+	- Implement Flight search
+	- Itinerary search is started and will be finished by Friday night
+	- Implementation of system class to combine/pass data between classes and just have methods ready for Drive to be called.
+
+Status Meeting 2 (2015-11-16)
+Group:
+	-At this moment we have working version of phase2
+	-Discussed the possiblities of moving some classes into different packages.
+	-Further discussed the tasks that every class should be performing to match the handout.

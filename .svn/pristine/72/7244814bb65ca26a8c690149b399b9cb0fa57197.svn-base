@@ -1,0 +1,57 @@
+package itinerary;
+
+/**
+ * An abstract class to create different types of Itineraries.
+ * 
+ * @author Zain Amir, Ian Ferguson, Andy Liang, Johnathan Tsoi and Raphael Alviz
+ */
+public abstract class Itinerary {
+
+  // instance variables
+  private String origin;
+  private String destination;
+  private String departureDateTime;
+
+  /**
+   * Constructor takes in the origin,destination and departureDateTime. Uses
+   * that info to initialize the Itinerary
+   * 
+   * @param origin
+   *          the origin the itinerary starts from
+   * @param destination
+   *          the destination where the itinerary stops
+   * @param departureDateTime
+   *          the Date and Time the first flight from the itinerary leaves at
+   */
+  public Itinerary(String origin, String destination, String departureDateTime) {
+    this.destination = destination;
+    this.origin = origin;
+    this.departureDateTime = departureDateTime;
+
+  }
+
+  /**
+   * Returns the Origin of the Itinerary.
+   * @return the origin
+   */
+  public String getOrigin() {
+    return origin;
+  }
+
+  /**
+   * Returns the destination of the Itinerary.
+   * @return the destination
+   */
+  public String getDestination() {
+    return destination;
+  }
+
+  /**
+   * Returns the departureDateTime of the Itinerary first flight.
+   * @return the departureDateTime
+   */
+  public String getDepartureDateTime() {
+    return departureDateTime;
+  }
+
+}
